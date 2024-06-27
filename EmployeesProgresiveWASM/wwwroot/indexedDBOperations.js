@@ -37,6 +37,9 @@
             await this.openDatabase();
         }
 
+        // Set LastModified to current time when adding a new employee
+        employee.LastModified = new Date().toISOString();
+
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction(['employees'], 'readwrite');
             const store = transaction.objectStore('employees');
@@ -108,7 +111,7 @@
             const request = store.get(id);
 
             request.onerror = (event) => {
-                console.error("Error Fetching employee with id ${id}", event.target.error);
+                console.error(`Error fetching employee with id ${id}:`, event.target.error);
                 reject(event.target.error);
             };
 
@@ -123,6 +126,9 @@
         if (!this.db) {
             await this.openDatabase();
         }
+
+        // Update LastModified to current time when updating an existing employee
+        employee.LastModified = new Date().toISOString();
 
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction(['employees'], 'readwrite');
@@ -154,12 +160,12 @@
             const request = store.delete(id);
 
             request.onerror = (event) => {
-                console.error("Error deleting employee with id ${ id }:", event.target.error);
+                console.error(`Error deleting employee with id ${id}:`, event.target.error);
                 reject(event.target.error);
             };
 
             request.onsuccess = (event) => {
-                console.log("Employee with id ${ id } deleted");
+                console.log(`Employee with id ${id} deleted`);
                 resolve();
             };
         });

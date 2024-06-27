@@ -6,6 +6,11 @@ const urlsToCache = [
     '/css/bootstrap/bootstrap.min.css',
     '/css/app.css',
     '/favicon.ico',
+    '_framework/blazor.webassembly.js',
+    '_framework/blazor.boot.json',
+    '_framework/dotnet.7.0.19.mpc1d6k9dx.js',
+    '_framework/blazor-hotreload.js',
+    'EmployeesProgresiveWASM.styles.css',
 ];
 
 self.addEventListener('install', (event) => {
