@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>BlazorWASMProgressive</title>
+    <base href="/" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="css/BlazorWASMProgressive.styles.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="manifest.json" rel="manifest" />
+    
+</head>
+
+<body>
+    <div id="app">Loading...</div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <!--<script>navigator.serviceWorker.register('service-worker.js');</script>-->
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(function () {
+                    console.log('Service Worker Registered');
+                });
+        }
+        window.addOnlineOfflineListener = (dotNetObjectRef) => {
+            window.addEventListener('online', () => {
+                dotNetObjectRef.invokeMethodAsync('HandleOnlineStatus', true);
+            });
+
+            window.addEventListener('offline', () => {
+                dotNetObjectRef.invokeMethodAsync('HandleOnlineStatus', false);
+            });
+        };
+        window.checkOnlineStatus = function () {
+            return navigator.onLine;
+        };
+    </script>
+    <script src="indexedDBOperations.js"></script>
+</body>
+
+</html>
